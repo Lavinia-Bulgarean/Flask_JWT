@@ -32,10 +32,10 @@ def login():
     password = request.form.get("password")
     
     # Vérification des utilisateurs
-    if username == "admin" and password == "adminpass":
+    if username == "admin" and password == "admin":
         access_token = create_access_token(identity={"username": username, "role": "admin"})
         return jsonify(access_token=access_token)
-    elif username == "user" and password == "userpass":
+    elif username == "user" and password == "user":
         access_token = create_access_token(identity={"username": username, "role": "user"})
         return jsonify(access_token=access_token)
 
