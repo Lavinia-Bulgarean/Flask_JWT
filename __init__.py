@@ -27,11 +27,17 @@ def hello_world():
 def login():
     username = request.json.get("username", None)
     password = request.json.get("password", None)
-    if username != "test" or password != "test":
+    if username == "admin" and password == "admin":
+        role = "admin"
+    elif username == "test" and password == "test":
+        role = "user"
+    else:
         return jsonify({"msg": "Mauvais utilisateur ou mot de passe"}), 401
 
-    access_token = create_access_token(identity=username)
+    additional_claims = {"role": role}
+    access_token = create_access_token(identity=username, additional_claims=additional_claims)
     return jsonify(access_token=access_token)
+    
 
 
 # Route protégée par un jeton valide
@@ -40,6 +46,8 @@ def login():
 def protected():
     current_user = get_jwt_identity()
     return jsonify(logged_in_as=current_user), 200
+
+
                                                                                                                
 if __name__ == "__main__":
   app.run(debug=True)
